@@ -37,7 +37,7 @@ def upload_db_deals_modify(deal_list):
     :param deal_list: List
     :return: none
     """
-    table = 'bitrix.deals_created'
+    table = 'bitrix.deals_modify'
     columns=['deal_id', 'contact_id','stage_id', 'close_date', 'date_create',
              'date_modify', 'category_id', 'source_id', 'semantic_id',
              'created_by_id', 'blank_url', 'department_id', 'version' ]

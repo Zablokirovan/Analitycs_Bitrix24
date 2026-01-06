@@ -9,9 +9,11 @@ def get_and_upload_deals_create():
 
 def get_and_upload_deal_modify():
     deal_id_dm, deal_dm_modify_data = Bitrix24.get_deals_date_modify()
-    Database.upload_db_deals_create(deal_dm_modify_data)
+    Database.upload_db_deals_modify(deal_dm_modify_data)
     return deal_id_dm
 
 
 
 
+if __name__ == "__main__":
+    get_and_upload_deal_modify()

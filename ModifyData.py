@@ -16,8 +16,8 @@ def data_modify_for_deals(deal_list, with_version: bool = False):
 
     for deal in deal_list:
         deal_id.append(deal['ID'])
-        date_for_upload.append((
-            int(deal['ID']),
+
+        row = [int(deal['ID']),
             int(deal['CONTACT_ID']) if deal.get('CONTACT_ID') else None,
             deal['STAGE_ID'],
             datetime.fromisoformat(deal['CLOSEDATE']).date(),
@@ -31,14 +31,14 @@ def data_modify_for_deals(deal_list, with_version: bool = False):
             deal['UF_CRM_1569388305']['downloadUrl'],
             int(deal['UF_CRM_5F3F5BECDFC07']) if deal.get(
                 'UF_CRM_5F3F5BECDFC07'
-            ) else None
-        ))
-
+            ) else None]
         #Since the same error handling logic is used for deals loaded by
         # creation date and date modified, for deals loaded by creation date,
         # the with_version flag will be set to true, and a version record will
         # be added to the shared array. For deals loaded by date modified only
         if with_version:
-            date_for_upload.append(version)
+            row.append(version)
+
+        date_for_upload.append(tuple(row))
 
     return deal_id, date_for_upload
