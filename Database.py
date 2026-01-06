@@ -31,3 +31,15 @@ def upload_db_deals_create(deal_list):
              'created_by_id', 'blank_url', 'department_id' ]
     client.insert(table=table, column_names=columns, data=deal_list)
 
+def upload_db_deals_modify(deal_list):
+    """
+    Loading transaction data exported by creation date into the database
+    :param deal_list: List
+    :return: none
+    """
+    table = 'bitrix.deals_created'
+    columns=['deal_id', 'contact_id','stage_id', 'close_date', 'date_create',
+             'date_modify', 'category_id', 'source_id', 'semantic_id',
+             'created_by_id', 'blank_url', 'department_id', 'version' ]
+    client.insert(table=table, column_names=columns, data=deal_list)
+

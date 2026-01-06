@@ -5,9 +5,14 @@ This file is required to modify the data downloaded from Bitrix24.
 
 from datetime import datetime, date
 
-def data_modify_for_deals(deal_list):
+def data_modify_for_deals(deal_list, with_version: bool = False):
+    #deal_ids
     deal_id=[]
+    #valid data for deals
     date_for_upload = []
+
+    load_at = datetime.now()
+    version = int(load_at.timestamp()) if with_version else None
 
     for deal in deal_list:
         deal_id.append(deal['ID'])
@@ -28,4 +33,12 @@ def data_modify_for_deals(deal_list):
                 'UF_CRM_5F3F5BECDFC07'
             ) else None
         ))
+
+        #Since the same error handling logic is used for deals loaded by
+        # creation date and date modified, for deals loaded by creation date,
+        # the with_version flag will be set to true, and a version record will
+        # be added to the shared array. For deals loaded by date modified only
+        if with_version:
+            date_for_upload.append(version)
+
     return deal_id, date_for_upload
