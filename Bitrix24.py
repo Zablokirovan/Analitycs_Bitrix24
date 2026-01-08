@@ -3,6 +3,7 @@ from fast_bitrix24 import Bitrix
 
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
+from typing import List
 
 import ModifyData
 
@@ -98,3 +99,25 @@ def get_deals_date_modify():
 
     except Exception as e:
         print(e)
+
+
+def chunks(lst, size):
+    for i in range(0, len(lst), size):
+        yield lst[i:i + size]
+
+
+def get_deal_history_stage(deal_id, batch_size = 50):
+    result = []
+    for batch in chunks(deal_id, batch_size):
+        with b_time_delay.slow(max_concurrent_requests=5):
+            res = b_time_delay.get_all(
+                'crm.stagehistory.list',
+                params={
+                    "entityTypeId": 2,
+                    'filter':{
+                        'OWNER_ID': batch
+                    }
+                })
+            result.extend(res)
+
+    return result
