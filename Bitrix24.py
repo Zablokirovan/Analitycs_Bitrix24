@@ -3,7 +3,6 @@ from fast_bitrix24 import Bitrix
 
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
-from typing import List
 
 import ModifyData
 
@@ -114,11 +113,10 @@ def chunks(lst, size):
         yield lst[i:i + size]
 
 
-def get_deal_history_stage(deal_id, batch_size = 50):
+def get_deal_history_stage(deal_id, batch_size=50):
     """
     Function for obtaining information about the history of transaction
      progress by stages from Bitrix24
-
     :param deal_id:  list of deal IDs
     :param batch_size:size: 50 transactions guarantee reliability and stability
     :return: List[Dict] A list of information on the transaction's
@@ -134,7 +132,7 @@ def get_deal_history_stage(deal_id, batch_size = 50):
                 'crm.stagehistory.list',
                 params={
                     "entityTypeId": 2,
-                    'filter':{
+                    'filter': {
                         'OWNER_ID': batch
                     }
                 })
