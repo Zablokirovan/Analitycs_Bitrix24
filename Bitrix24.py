@@ -102,14 +102,34 @@ def get_deals_date_modify():
 
 
 def chunks(lst, size):
+    """
+    A function for generating batch requests to Bitrix24
+     for reliability and to avoid blocking
+    :param lst: list of deal IDs
+    :param size: 50 transactions guarantee reliability and stability
+    :return: None A list of information on the transaction's history by stage,
+     with each stage in a separate dictionary
+    """
     for i in range(0, len(lst), size):
         yield lst[i:i + size]
 
 
 def get_deal_history_stage(deal_id, batch_size = 50):
+    """
+    Function for obtaining information about the history of transaction
+     progress by stages from Bitrix24
+
+    :param deal_id:  list of deal IDs
+    :param batch_size:size: 50 transactions guarantee reliability and stability
+    :return: List[Dict] A list of information on the transaction's
+    history by stage, with each stage in a separate dictionary
+    """
     result = []
+
     for batch in chunks(deal_id, batch_size):
+
         with b_time_delay.slow(max_concurrent_requests=5):
+
             res = b_time_delay.get_all(
                 'crm.stagehistory.list',
                 params={
