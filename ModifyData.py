@@ -4,7 +4,7 @@ This file is required to modify the data downloaded from Bitrix24.
 """
 
 from datetime import datetime
-
+from zoneinfo import ZoneInfo
 
 def data_modify_for_deals(deal_list, with_version: bool = False):
     # deal_ids
@@ -44,3 +44,27 @@ def data_modify_for_deals(deal_list, with_version: bool = False):
         date_for_upload.append(tuple(row))
 
     return deal_id, date_for_upload
+
+
+def modify_date(date):
+    dt = datetime.fromisoformat(date)
+    return  dt.astimezone(ZoneInfo("Asia/Almaty"))
+
+
+def modify_history_data(history):
+    result = []
+
+    for i in history:
+        dt = modify_date(i['CREATED_TIME'])
+
+        result.append((
+            i['ID'],
+            i['TYPE_ID'],
+            i['OWNER_ID'],
+            dt,
+            dt.date(),
+            i["CATEGORY_ID"],
+            i["STAGE_ID"]
+        ))
+
+    return result

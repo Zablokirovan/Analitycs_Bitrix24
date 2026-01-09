@@ -120,4 +120,4 @@ def get_deal_history_stage(deal_id, batch_size = 50):
                 })
             result.extend(res)
 
-    return result
+    return ModifyData.modify_history_data(result)

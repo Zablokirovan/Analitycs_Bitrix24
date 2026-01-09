@@ -2,6 +2,7 @@ import Bitrix24
 import Database
 
 
+
 # deal_id_dc = deal_id
 # deal_dc_modify_data = valid data for upload in database
 def get_and_upload_deals_create():
@@ -15,8 +16,8 @@ def get_and_upload_deal_modify():
     return deal_id_dm
 
 def history_get(deal_id_dm):
-    Bitrix24.get_deal_history_stage(deal_id_dm)
-
+    history = Bitrix24.get_deal_history_stage(deal_id_dm)
+    Database.upload_db_deals_history(history)
 
 
 if __name__ == "__main__":
