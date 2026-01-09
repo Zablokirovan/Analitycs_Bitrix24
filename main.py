@@ -15,11 +15,16 @@ def get_and_upload_deal_modify():
     #Database.upload_db_deals_modify(deal_dm_modify_data)
     return deal_id_dm
 
+
 def history_get(deal_id_dm):
     history = Bitrix24.get_deal_history_stage(deal_id_dm)
     Database.upload_db_deals_history(history)
 
 
+def departament():
+    dep_info = Bitrix24.get_department()
+    Database.department_upload(dep_info)
+
+
 if __name__ == "__main__":
-    ids = get_and_upload_deal_modify()
-    history_get(ids)
+    departament()

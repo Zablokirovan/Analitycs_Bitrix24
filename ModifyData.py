@@ -68,3 +68,16 @@ def modify_history_data(history):
         ))
 
     return result
+
+
+def department(department_list):
+    dep_m = []
+    for i in department_list:
+        dep_m.append((
+            int(i['ID']),
+            i["NAME"],
+            i["SORT"],
+            int(i['CREATED_BY_ID']) if i.get("CREATED_BY_ID") else None,
+            int(i['UF_HEAD']) if i.get("UF_HEAD") else None
+        ))
+    return dep_m

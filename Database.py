@@ -57,3 +57,14 @@ def upload_db_deals_history(history):
         'id_event', 'type_id', 'deal_id', 'date_modify', 'date', 'category_id',
         'stage_id']
     client.insert(table=table, column_names=columns, data=history)
+
+
+def department_upload(department_list):
+    """
+
+    :param department_list:
+    :return:
+    """
+    table = 'bitrix.department_bitrix'
+    columns = ['id_dep', 'name_dep', 'sort', 'parent', 'uf_head']
+    client.insert(table=table, column_names=columns, data=department_list)

@@ -139,3 +139,10 @@ def get_deal_history_stage(deal_id, batch_size=50):
             result.extend(res)
 
     return ModifyData.modify_history_data(result)
+
+def get_department():
+    """
+    function for downloading information about user workstations
+    :return: list
+    """
+    return ModifyData.department(b_time_delay.get_all('department.get'))
