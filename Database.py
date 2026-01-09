@@ -19,6 +19,7 @@ client = clickhouse_connect.get_client(
     verify=False
 )
 
+
 def upload_db_deals_create(deal_list):
     """
     Loading transaction data exported by creation date into the database
@@ -30,6 +31,7 @@ def upload_db_deals_create(deal_list):
              'date_modify', 'category_id', 'source_id', 'semantic_id',
              'created_by_id', 'blank_url', 'department_id' ]
     client.insert(table=table, column_names=columns, data=deal_list)
+
 
 def upload_db_deals_modify(deal_list):
     """
@@ -43,3 +45,15 @@ def upload_db_deals_modify(deal_list):
              'created_by_id', 'blank_url', 'department_id', 'version' ]
     client.insert(table=table, column_names=columns, data=deal_list)
 
+
+def upload_db_deals_history(history):
+    """
+
+    :param history:
+    :return:
+    """
+    table = 'bitrix.deal_history_stage'
+    columns = [
+        'id_event', 'type_id', 'deal_id', 'date_modify', 'date', 'category_id',
+        'stage_id']
+    client.insert(table=table, column_names=columns, data=history)
