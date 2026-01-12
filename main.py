@@ -26,7 +26,8 @@ def departament():
     Database.department_upload(dep_info)
 
 def user():
-    Bitrix24.user_get()
+    users_list = Bitrix24.user_get()
+    Database.users_upload(users_list)
 
 if __name__ == "__main__":
     user()

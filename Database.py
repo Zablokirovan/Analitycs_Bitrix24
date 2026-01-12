@@ -68,3 +68,19 @@ def department_upload(department_list):
     table = 'bitrix.department_bitrix'
     columns = ['id_dep', 'name_dep', 'sort', 'parent', 'uf_head', 'updated_at']
     client.insert(table=table, column_names=columns, data=department_list)
+
+
+def users_upload(users_list):
+    """
+
+    :param users_list:
+    :return:
+    """
+    table = 'bitrix.users_bitrix'
+    columns = ['user_id', 'xml_id', 'active', 'name', 'last_name',
+               'second_name', 'email', 'last_login', 'work_position',
+               'department', '1cka_code', 'per_mobile', 'city',
+               'work_mobile', 'phone_inner', 'updated_at']
+    client.insert(table=table, column_names=columns, data=users_list)
+
+
