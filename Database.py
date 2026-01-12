@@ -66,5 +66,5 @@ def department_upload(department_list):
     :return:
     """
     table = 'bitrix.department_bitrix'
-    columns = ['id_dep', 'name_dep', 'sort', 'parent', 'uf_head']
+    columns = ['id_dep', 'name_dep', 'sort', 'parent', 'uf_head', 'updated_at']
     client.insert(table=table, column_names=columns, data=department_list)
