@@ -6,6 +6,7 @@ This file is required to modify the data downloaded from Bitrix24.
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+
 def data_modify_for_deals(deal_list, with_version: bool = False):
     # deal_ids
     deal_id = []
@@ -48,7 +49,7 @@ def data_modify_for_deals(deal_list, with_version: bool = False):
 
 def modify_date(date):
     dt = datetime.fromisoformat(date)
-    return  dt.astimezone(ZoneInfo("Asia/Almaty"))
+    return dt.astimezone(ZoneInfo("Asia/Almaty"))
 
 
 def modify_history_data(history):
@@ -83,6 +84,7 @@ def department(department_list):
         ))
     return dep_m
 
+
 def user_modify(users_list):
     user_m = []
 
@@ -93,7 +95,7 @@ def user_modify(users_list):
             user.get('XML_ID'),
             1 if user['ACTIVE'] == True else 0,
             user.get('NAME') or None,
-            user.get('LAST_NAME') or  None,
+            user.get('LAST_NAME') or None,
             user.get('SECOND_NAME') or None,
             user.get('EMAIL') or None,
             modify_date(user['LAST_LOGIN']).date()
@@ -104,8 +106,8 @@ def user_modify(users_list):
             user.get('UF_USR_EMPLOYEE_1CKA_CODE') or None,
             user.get('PERSONAL_MOBILE') or None,
             user.get('PERSONAL_CITY') or None,
-            user.get('WORK_PHONE') or  None,
-            user.get('UF_PHONE_INNER')  or None,
+            user.get('WORK_PHONE') or None,
+            user.get('UF_PHONE_INNER') or None,
             datetime.now()
         ))
     return user_m

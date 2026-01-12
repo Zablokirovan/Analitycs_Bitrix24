@@ -13,11 +13,10 @@ client = clickhouse_connect.get_client(
     username=os.getenv('DB_USERNAME'),
     password=os.getenv('DB_PASSWORD'),
     port=int(os.getenv('DB_PORT')),
-    #connect in https, not http
+    # connect in https, not http
     secure=True,
-    #Disables server SSL certificate verification.
-    verify=False
-)
+    # Disables server SSL certificate verification.
+    verify=False)
 
 
 def upload_db_deals_create(deal_list):
@@ -27,9 +26,10 @@ def upload_db_deals_create(deal_list):
     :return: none
     """
     table = 'bitrix.deals_created'
-    columns=['deal_id', 'contact_id','stage_id', 'close_date', 'date_create',
-             'date_modify', 'category_id', 'source_id', 'semantic_id',
-             'created_by_id', 'blank_url', 'department_id' ]
+    columns = ['deal_id', 'contact_id', 'stage_id', 'close_date',
+               'date_create', 'date_modify', 'category_id',
+               'source_id', 'semantic_id', 'created_by_id',
+               'blank_url', 'department_id']
     client.insert(table=table, column_names=columns, data=deal_list)
 
 
@@ -40,30 +40,30 @@ def upload_db_deals_modify(deal_list):
     :return: none
     """
     table = 'bitrix.deals_modify'
-    columns=['deal_id', 'contact_id','stage_id', 'close_date', 'date_create',
-             'date_modify', 'category_id', 'source_id', 'semantic_id',
-             'created_by_id', 'blank_url', 'department_id', 'version' ]
+    columns = ['deal_id', 'contact_id', 'stage_id', 'close_date',
+               'date_create', 'date_modify', 'category_id', 'source_id',
+               'semantic_id', 'created_by_id', 'blank_url',
+               'department_id', 'version']
     client.insert(table=table, column_names=columns, data=deal_list)
 
 
 def upload_db_deals_history(history):
     """
-
-    :param history:
-    :return:
+    Loading transaction history data into the database
+    :param history: list histories
+    :return:None
     """
     table = 'bitrix.deal_history_stage'
-    columns = [
-        'id_event', 'type_id', 'deal_id', 'date_modify', 'date', 'category_id',
-        'stage_id']
+    columns = ['id_event', 'type_id', 'deal_id',
+               'date_modify', 'date', 'category_id', 'stage_id']
     client.insert(table=table, column_names=columns, data=history)
 
 
 def department_upload(department_list):
     """
-
+    Loading data about the transaction departments into the database
     :param department_list:
-    :return:
+    :return:None
     """
     table = 'bitrix.department_bitrix'
     columns = ['id_dep', 'name_dep', 'sort', 'parent', 'uf_head', 'updated_at']
@@ -72,9 +72,9 @@ def department_upload(department_list):
 
 def users_upload(users_list):
     """
-
+    Loading user data into the database
     :param users_list:
-    :return:
+    :return: None
     """
     table = 'bitrix.users_bitrix'
     columns = ['user_id', 'xml_id', 'active', 'name', 'last_name',
@@ -82,5 +82,3 @@ def users_upload(users_list):
                'department', '1cka_code', 'per_mobile', 'city',
                'work_mobile', 'phone_inner', 'updated_at']
     client.insert(table=table, column_names=columns, data=users_list)
-
-

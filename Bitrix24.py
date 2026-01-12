@@ -140,6 +140,7 @@ def get_deal_history_stage(deal_id, batch_size=50):
 
     return ModifyData.modify_history_data(result)
 
+
 def get_department():
     """
     function for downloading information about user workstations
@@ -147,14 +148,11 @@ def get_department():
     """
     return ModifyData.department(b_time_delay.get_all('department.get'))
 
+
 def user_get():
     """
-
-    :return:
+    Downloading user information
+    :return: list(dict[])
     """
-    return  ModifyData.user_modify(b_time_delay.get_all('user.get',
-                                                 params={
-                                                     'filter': {
-                                                         'Active': True
-                                                     }
-                                                 }))
+    return ModifyData.user_modify(b_time_delay.get_all(
+        'user.get', params={'filter': {'Active': True}}))
