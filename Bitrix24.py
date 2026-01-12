@@ -146,3 +146,15 @@ def get_department():
     :return: list
     """
     return ModifyData.department(b_time_delay.get_all('department.get'))
+
+def user_get():
+    """
+
+    :return:
+    """
+    return  ModifyData.user_modify(b_time_delay.get_all('user.get',
+                                                 params={
+                                                     'filter': {
+                                                         'Active': True
+                                                     }
+                                                 }))

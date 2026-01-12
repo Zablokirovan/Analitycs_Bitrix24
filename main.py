@@ -25,6 +25,8 @@ def departament():
     dep_info = Bitrix24.get_department()
     Database.department_upload(dep_info)
 
+def user():
+    Bitrix24.user_get()
 
 if __name__ == "__main__":
-    departament()
+    user()
