@@ -85,25 +85,27 @@ def department(department_list):
 
 def user_modify(users_list):
     user_m = []
+
     for user in users_list:
+
         user_m.append((
             int(user['ID']),
-            int(user['XML_ID']),
+            user.get('XML_ID'),
             1 if user['ACTIVE'] == True else 0,
             user.get('NAME') or None,
-            user['LAST_NAME'] if user['LAST_NAME'] else None,
-            user['SECOND_NAME'] if user.get('SECOND_NAME') else None,
-            user['EMAIL'] if user['EMAIL'] else None,
-            modify_date(user['LAST_LOGIN']).date() if user.get('LAST_LOGIN') else None,
-            user['WORK_POSITION'] if user.get('WORK_POSITION') else None,
-            None if user['UF_DEPARTMENT'] is None
-            else user['UF_DEPARTMENT'][0],
-            user['UF_USR_EMPLOYEE_1CKA_CODE'] if user.get('UF_USR_EMPLOYEE_1CKA_CODE')
-            else None,
-            user['PERSONAL_MOBILE'] if user.get('PERSONAL_MOBILE') else None,
-            user['PERSONAL_CITY'] if user.get('PERSONAL_CITY') else None,
-            user['WORK_PHONE'] if user.get('WORK_PHONE') else None,
-            int(user['UF_PHONE_INNER']) if user.get('UF_PHONE_INNER') else None,
+            user.get('LAST_NAME') or  None,
+            user.get('SECOND_NAME') or None,
+            user.get('EMAIL') or None,
+            modify_date(user['LAST_LOGIN']).date()
+            if user.get('LAST_LOGIN') else None,
+            user.get('WORK_POSITION') or None,
+            int(user['UF_DEPARTMENT'][0]) if
+            user.get('UF_DEPARTMENT') else None,
+            user.get('UF_USR_EMPLOYEE_1CKA_CODE') or None,
+            user.get('PERSONAL_MOBILE') or None,
+            user.get('PERSONAL_CITY') or None,
+            user.get('WORK_PHONE') or  None,
+            user.get('UF_PHONE_INNER')  or None,
             datetime.now()
         ))
     return user_m
