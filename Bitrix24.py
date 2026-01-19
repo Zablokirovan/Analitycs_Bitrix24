@@ -56,7 +56,7 @@ def get_deals_date_create():
                             'STAGE_SEMANTIC_ID',  # S=successful,
                             # P=production, F=fatal
                             'CREATED_BY_ID']  # employe created deals
-                    }), with_version=False)
+                    }))
     except Exception as e:
         print(e)
 
@@ -94,7 +94,7 @@ def get_deals_date_modify():
                             'STAGE_SEMANTIC_ID',  # S=successful,
                             # P=production, F=fatal
                             'CREATED_BY_ID']  # Employe created deals
-                    }), with_version=True)
+                    }))
 
     except Exception as e:
         print(e)

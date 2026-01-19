@@ -1,5 +1,5 @@
 """
-This file need for upload data in database Clickhouse
+This file need for upload data in database Postgres
 """
 import os
 import psycopg2
@@ -59,16 +59,51 @@ def upload_db_deals_create(deal_list):
 
 def upload_db_deals_modify(deal_list):
     """
-    Loading transaction data exported by creation date into the database
-    :param deal_list: List
-    :return: none
-    """
-    table = 'bitrix.deals_modify'
-    columns = ['deal_id', 'contact_id', 'stage_id', 'close_date',
-               'date_create', 'date_modify', 'category_id', 'source_id',
-               'semantic_id', 'created_by_id', 'blank_url',
-               'department_id', 'version']
-    client.insert(table=table, column_names=columns, data=deal_list)
+    Load deal data into the database using deal modification date (UPSERT).
+    :param deal_list: list[tuple]
+    :return: None
+     """
+    # Table name
+    table = Config.table_deal_modify
+
+    # Existence check
+    DB_table.table_for_deals_by_date_modify()
+
+    # Script
+    query = f"""
+            INSERT INTO {os.getenv('DB_SHEMA')}.{table} (
+                     deal_id,
+                     contact_id,
+                     stage_id,
+                     close_date,
+                     date_create, 
+                     date_modify,
+                     category_id,
+                     source_id,
+                     semantic_id,
+                     created_by_id,
+                     blank_url,
+                     department_id
+                     )
+                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 ON CONFLICT (deal_id)
+                 DO UPDATE SET
+                    contact_id = EXCLUDED.contact_id,
+                    stage_id = EXCLUDED.stage_id,
+                    close_date = EXCLUDED.close_date,
+                    date_create = EXCLUDED.date_create, 
+                    date_modify = EXCLUDED.date_modify,
+                    category_id = EXCLUDED.category_id,
+                    source_id = EXCLUDED.source_id,
+                    semantic_id = EXCLUDED.semantic_id,
+                    created_by_id = EXCLUDED.created_by_id,
+                    blank_url = EXCLUDED.blank_url,
+                    department_id = EXCLUDED.department_id;
+                 """
+    with db_client.cursor() as cur:
+        cur.executemany(query, deal_list)
+
+    db_client.commit()
 
 
 def upload_db_deals_history(history):
@@ -77,6 +112,7 @@ def upload_db_deals_history(history):
     :param history: list histories
     :return:None
     """
+
     table = 'bitrix.deal_history_stage'
     columns = ['id_event', 'type_id', 'deal_id',
                'date_modify', 'date', 'category_id', 'stage_id']

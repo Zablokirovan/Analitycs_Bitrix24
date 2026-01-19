@@ -48,3 +48,48 @@ def table_for_deals_by_date_created():
         cur.execute(sql_script)
 
     db_client.commit()
+
+
+def table_for_deals_by_date_modify():
+    sql_script = f"""
+        CREATE SCHEMA IF NOT EXISTS bitrix;
+
+        CREATE TABLE IF NOT EXISTS bitrix.{Config.table_deal_modify} (
+            deal_id BIGINT PRIMARY KEY,
+            contact_id BIGINT,
+            stage_id TEXT,
+            close_date DATE,
+            date_create DATE,
+            date_modify DATE,
+            category_id INTEGER,
+            source_id TEXT,
+            semantic_id TEXT,
+            created_by_id BIGINT,
+            blank_url TEXT,
+            department_id BIGINT
+        );
+        """
+
+    with db_client.cursor() as cur:
+        cur.execute(sql_script)
+
+    db_client.commit()
+
+
+def table_for_stage_history_by_deal():
+    query = """
+        CREATE SCHEMA IF NOT EXISTS bitrix;
+
+        CREATE TABLE bitrix.deal_history_stage (
+        id_event    BIGINT,
+        type_id     BIGINT,
+        deal_id     BIGINT,
+        date_modify TIMESTAMPTZ,
+        date        DATE,
+        category_id INTEGER,
+        stage_id    TEXT);"""
+
+    with db_client.cursor() as cur:
+        cur.execute(query)
+
+    db_client.commit()
