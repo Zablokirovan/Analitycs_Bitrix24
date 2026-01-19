@@ -74,8 +74,7 @@ def department(department_list):
             i["NAME"],
             i["SORT"],
             int(i['CREATED_BY_ID']) if i.get("CREATED_BY_ID") else None,
-            int(i['UF_HEAD']) if i.get("UF_HEAD") else None,
-            datetime.now()
+            int(i['UF_HEAD']) if i.get("UF_HEAD") else None
         ))
     return dep_m
 

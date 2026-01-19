@@ -2,6 +2,8 @@
 This file need for upload data in database Postgres
 """
 import os
+from idlelib.query import Query
+
 import psycopg2
 
 import Config
@@ -113,10 +115,29 @@ def upload_db_deals_history(history):
     :return:None
     """
 
-    table = 'bitrix.deal_history_stage'
-    columns = ['id_event', 'type_id', 'deal_id',
-               'date_modify', 'date', 'category_id', 'stage_id']
-    client.insert(table=table, column_names=columns, data=history)
+    DB_table.table_for_stage_history_by_deal()
+
+    table = Config.table_deal_history
+
+    query = f"""
+       INSERT INTO {os.getenv('DB_SHEMA')}.{table} (
+            id_event,
+            type_id,
+            deal_id,
+            date_modify,
+            date,
+            category_id, 
+            stage_id
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (deal_id, stage_id)
+            DO NOTHING
+            """
+    with db_client.cursor() as  cur:
+        cur.executemany(query, history)
+
+    db_client.commit()
+
 
 
 def department_upload(department_list):
@@ -125,9 +146,30 @@ def department_upload(department_list):
     :param department_list:
     :return:None
     """
-    table = 'bitrix.department_bitrix'
-    columns = ['id_dep', 'name_dep', 'sort', 'parent', 'uf_head', 'updated_at']
-    client.insert(table=table, column_names=columns, data=department_list)
+    table = Config.table_department
+    DB_table.table_for_department()
+
+    query = f"""
+    INSERT INTO {os.getenv('DB_SHEMA')}.{table}(
+            id_dep,
+            name_dep,
+            sort,
+            parent,
+            uf_head
+            )
+    VALUES (%s, %s, %s, %s, %s)
+    ON CONFLICT (id_dep)
+    DO UPDATE SET
+            name_dep = EXCLUDED.name_dep,
+            sort     = EXCLUDED.sort,
+            parent   = EXCLUDED.parent,
+            uf_head  = EXCLUDED.uf_head;"""
+
+    with db_client.cursor() as cur:
+        cur.executemany(query,department_list)
+
+    db_client.commit()
+
 
 
 def users_upload(users_list):

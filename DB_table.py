@@ -77,18 +77,40 @@ def table_for_deals_by_date_modify():
 
 
 def table_for_stage_history_by_deal():
-    query = """
+    query = f"""
         CREATE SCHEMA IF NOT EXISTS bitrix;
 
-        CREATE TABLE bitrix.deal_history_stage (
-        id_event    BIGINT,
-        type_id     BIGINT,
-        deal_id     BIGINT,
-        date_modify TIMESTAMPTZ,
-        date        DATE,
-        category_id INTEGER,
-        stage_id    TEXT);"""
+        CREATE TABLE IF NOT EXISTS bitrix.{Config.table_deal_history} (
+            id_event    BIGINT,
+            type_id     BIGINT,
+            deal_id     BIGINT NOT NULL,
+            date_modify TIMESTAMPTZ,
+            date        DATE,
+            category_id INTEGER,
+            stage_id    TEXT NOT NULL,
 
+            CONSTRAINT uq_deal_stage UNIQUE (deal_id, stage_id)
+        );
+    """
+
+    with db_client.cursor() as cur:
+        cur.execute(query)
+
+    db_client.commit()
+
+
+def table_for_department():
+    query = f"""
+    CREATE SCHEMA IF NOT EXISTS bitrix;
+
+    CREATE TABLE IF NOT EXISTS bitrix.{Config.table_department} (
+    id_dep     BIGINT PRIMARY KEY,
+    name_dep   TEXT NOT NULL,
+    sort       BIGINT,
+    parent     BIGINT,
+    uf_head    BIGINT)
+    
+    """
     with db_client.cursor() as cur:
         cur.execute(query)
 
