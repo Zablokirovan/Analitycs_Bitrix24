@@ -2,21 +2,18 @@
 This file need for upload data in database Clickhouse
 """
 import os
-import clickhouse_connect
+import psycopg2
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = clickhouse_connect.get_client(
-    host=os.getenv('DB_HOST'),
-    database=os.getenv('DB_DATABASE'),
-    username=os.getenv('DB_USERNAME'),
-    password=os.getenv('DB_PASSWORD'),
-    port=int(os.getenv('DB_PORT')),
-    # connect in https, not http
-    secure=True,
-    # Disables server SSL certificate verification.
-    verify=False)
+db_client = psycopg2.connect(
+    dbname=os.getenv('DB_NAME'),
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    port=os.getenv("DB_PORT")
+)
 
 
 def upload_db_deals_create(deal_list):
@@ -25,13 +22,27 @@ def upload_db_deals_create(deal_list):
     :param deal_list: List
     :return: none
     """
-    table = 'bitrix.deals_created'
-    columns = ['deal_id', 'contact_id', 'stage_id', 'close_date',
-               'date_create', 'date_modify', 'category_id',
-               'source_id', 'semantic_id', 'created_by_id',
-               'blank_url', 'department_id']
-    client.insert(table=table, column_names=columns, data=deal_list)
-
+    with db_client.cursor() as cur:
+        cur.executemany(
+            f"""
+            INSERT INTO {os.getenv('DB_SHEMA')}.deals_on_datecreated (
+            deal_id,
+            contact_id,
+            stage_id,
+            close_date,
+            date_create, 
+            date_modify,
+            category_id,
+            source_id,
+            semantic_id,
+            created_by_id,
+            blank_url,
+            department_id
+            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, deal_list
+        )
+        db_client.commit()
 
 def upload_db_deals_modify(deal_list):
     """

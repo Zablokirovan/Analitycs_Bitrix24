@@ -43,4 +43,4 @@ def stage_in_category(category_id):
 
 
 if __name__ == "__main__":
-    category()
+    get_and_upload_deals_create()
