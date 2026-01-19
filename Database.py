@@ -82,3 +82,21 @@ def users_upload(users_list):
                'department', '1cka_code', 'per_mobile', 'city',
                'work_mobile', 'phone_inner', 'updated_at']
     client.insert(table=table, column_names=columns, data=users_list)
+
+def category_upload(category_list):
+    """
+
+    :param category_list:
+    :return:
+    """
+    table = 'bitrix.category_bitrix'
+    columns = ['id', 'name', 'sort', 'entityTypeId', 'isDefault',
+               'originId', 'originatorId', 'updated_at']
+    client.insert(table=table, column_names=columns, data=category_list)
+
+
+def stage_category_upload(stage_list):
+    table = 'bitrix.stage_category'
+    columns = ['id', 'entity_id', 'status_id', 'name', 'name_init',
+               'sort', 'system', 'category_id', 'updated_at']
+    client.insert(table=table, column_names=columns, data=stage_list)

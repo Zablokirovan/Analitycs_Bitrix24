@@ -111,3 +111,50 @@ def user_modify(users_list):
             datetime.now()
         ))
     return user_m
+
+
+def category_modify(category_list):
+    """
+
+    :param category_list:
+    :return:
+    """
+    category_m = []
+    category_id = []
+    for i in category_list:
+        category_id.append(i['id'])
+        category_m.append((
+            i['id'],
+            i['name'],
+            i.get('sort'),
+            i.get('entityTypeId'),
+            i.get('isDefault'),
+            i.get('originId'),
+            i.get('originatorId'),
+            datetime.now()
+        ))
+
+    return category_m, category_id
+
+
+def stage_modify(stage_list):
+    stage_m = []
+
+    for stage_category in stage_list:
+
+        for stage in stage_category:
+
+            stage_m.append(
+                (
+                    int(stage['ID']),
+                    stage['ENTITY_ID'],
+                    stage['STATUS_ID'],
+                    stage['NAME'],
+                    stage.get('NAME_INIT') or None,
+                    int(stage['SORT']),
+                    stage['SYSTEM'],
+                    int(stage.get('CATEGORY_ID')) if stage.get('CATEGORY_ID') else  0,
+                    datetime.now()
+                )
+            )
+    return stage_m

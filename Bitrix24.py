@@ -156,3 +156,25 @@ def user_get():
     """
     return ModifyData.user_modify(b_time_delay.get_all(
         'user.get', params={'filter': {'Active': True}}))
+
+def get_category():
+    return ModifyData.category_modify(b_time_delay.get_all(
+        'crm.category.list', params={'entityTypeId': 2 }))
+
+
+def get_stage(category_list):
+    stage_list = []
+
+    for category in category_list:
+        if category == 0:
+            res = b_time_delay.get_all('crm.status.list', params={
+                'filter': {'ENTITY_ID': "DEAL_STAGE"}
+            })
+            stage_list.append(res)
+        else:
+            res = b_time_delay.get_all('crm.status.list', params={
+                'filter': {'ENTITY_ID': f"DEAL_STAGE_{category}"}
+            })
+            stage_list.append(res)
+
+    return ModifyData.stage_modify(stage_list)

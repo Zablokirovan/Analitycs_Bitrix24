@@ -31,5 +31,16 @@ def user():
     Database.users_upload(users_list)
 
 
+def category():
+    category_list, category_id = Bitrix24.get_category()
+    #Database.category_upload(category_list)
+    stage_in_category(category_id)
+
+
+def stage_in_category(category_id):
+    stage = Bitrix24.get_stage(category_id)
+    Database.stage_category_upload(stage)
+
+
 if __name__ == "__main__":
-    user()
+    category()
