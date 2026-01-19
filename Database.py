@@ -3,10 +3,15 @@ This file need for upload data in database Clickhouse
 """
 import os
 import psycopg2
+
+import Config
+import DB_table
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
+# Postgres connect
 db_client = psycopg2.connect(
     dbname=os.getenv('DB_NAME'),
     host=os.getenv("DB_HOST"),
@@ -22,10 +27,17 @@ def upload_db_deals_create(deal_list):
     :param deal_list: List
     :return: none
     """
+    # Table name
+    table = Config.table_deal_create
+
+    # Existence check
+    DB_table.table_for_deals_by_date_created()
+
+    # Script
     with db_client.cursor() as cur:
         cur.executemany(
             f"""
-            INSERT INTO {os.getenv('DB_SHEMA')}.deals_on_datecreated (
+            INSERT INTO {os.getenv('DB_SHEMA')}.{table} (
             deal_id,
             contact_id,
             stage_id,
@@ -43,6 +55,7 @@ def upload_db_deals_create(deal_list):
             """, deal_list
         )
         db_client.commit()
+
 
 def upload_db_deals_modify(deal_list):
     """
