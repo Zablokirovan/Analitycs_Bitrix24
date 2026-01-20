@@ -371,6 +371,9 @@ def table_for_category_stage():
         COMMENT ON TABLE bitrix.{Config.table_category_stage}
         IS 'Таблица c стадиями воронок';
         
+        COMMENT ON COLUMN bitrix.{Config.table_category_stage}.id
+        IS 'Id стадии внури битрикса';
+        
         COMMENT ON COLUMN bitrix.{Config.table_category_stage}.entity_id
         IS 'Id сущности к которой привязана стадия (Воронка со сделками)';
         
