@@ -123,8 +123,7 @@ def category_modify(category_list):
             i.get('entityTypeId'),
             i.get('isDefault'),
             i.get('originId'),
-            i.get('originatorId'),
-            datetime.now()
+            i.get('originatorId')
         ))
 
     return category_m, category_id

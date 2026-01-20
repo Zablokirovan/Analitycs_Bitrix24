@@ -313,3 +313,44 @@ def table_for_user():
     db_client.commit()
 
 
+def table_for_category():
+    query = f"""
+     CREATE SCHEMA IF NOT EXISTS bitrix;
+     
+     CREATE TABLE IF NOT EXISTS bitrix.{Config.table_category}(
+            id BIGINT PRIMARY KEY,
+            name TEXT ,
+            sort INTEGER,
+            entityTypeId INTEGER,
+            isDefault TEXT,
+            originId TEXT,
+            originatorId TEXT);
+            
+        COMMENT ON TABLE bitrix.{Config.table_category}
+        IS 'Таблица c воронками из Битрикса';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category}.id
+        IS 'Id  Воронки';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category}.sort
+        IS 'Сортировка';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category}.entityTypeId
+        IS 'Показать что воронка для сделок';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category}.isDefault
+        IS 'Является ли воронка по молчанию в Битриксе (Розница)';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category}.originId
+        IS 'Источник воронки (Заполняется если воронка создавалась сервисами)';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category}.originatorId
+        IS 'Создатель воронки (Заполняется если воронка создавалась сервисами)';
+"""
+
+
+    with db_client.cursor() as cur:
+        cur.execute(query)
+
+    db_client.commit()
+

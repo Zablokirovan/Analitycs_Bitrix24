@@ -227,12 +227,36 @@ def category_upload(category_list):
     :param category_list:
     :return:
     """
-    table = Config.table_categoryes
+    table = Config.table_category
+    DB_table.table_for_category()
+    query = f"""
+    INSERT INTO {os.getenv('DB_SHEMA')}.{table}(
+            id,
+            name,
+            sort,
+            entityTypeId,
+            isDefault,
+            originId,
+            originatorId)
+    
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    ON CONFLICT(id)
+    
+    DO UPDATE SET
+            id = EXCLUDED.id,
+            name = EXCLUDED.name,
+            sort = EXCLUDED.sort,
+            entityTypeId = EXCLUDED.entityTypeId,
+            isDefault = EXCLUDED.isDefault,
+            originId = EXCLUDED.originId,
+            originatorId = EXCLUDED.originatorId;
+        """
 
-    table = 'bitrix.category_bitrix'
-    columns = ['id', 'name', 'sort', 'entityTypeId', 'isDefault',
-               'originId', 'originatorId', 'updated_at']
-    client.insert(table=table, column_names=columns, data=category_list)
+    with db_client.cursor() as cur:
+        cur.executemany(query,category_list)
+
+    db_client.commit()
+
 
 
 def stage_category_upload(stage_list):
