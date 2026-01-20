@@ -178,6 +178,7 @@ def users_upload(users_list):
     :param users_list:
     :return: None
     """
+
     table = 'bitrix.users_bitrix'
     columns = ['user_id', 'xml_id', 'active', 'name', 'last_name',
                'second_name', 'email', 'last_login', 'work_position',

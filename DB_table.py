@@ -42,6 +42,46 @@ def table_for_deals_by_date_created():
         blank_url TEXT,
         department_id BIGINT
     );
+    COMMENT ON TABLE bitrix.{Config.table_deal_create}
+        IS 'Таблица с сделками выгрузенные по дате создания';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.deal_id
+        IS 'ID сделки';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.contact_id
+        IS 'Тип события (ID клиента) ';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.stage_id
+        IS 'ID Стадии на которой находится сделка';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.close_date
+        IS 'Дата закрытия (Системное поле от Битрикса)';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.date_create
+        IS 'Дата создания';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.date_modify
+        IS 'Дата последнего изменения';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.category_id
+        IS 'ID воронки в которой находится сделка';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.source_id
+        IS 'ID источника сделки';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.semantic_id
+        IS 'ID показывающая этап делки. # S=successful,
+                            # P=production, F=fatal';
+    
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.created_by_id
+        IS 'ID сотрудника создавшего сделку';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.blank_url
+        IS 'Бланк покупателя в формате ссылки';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_create}.department_id
+        IS 'Департамент к которому относится сделка';
+        
     """
 
     with db_client.cursor() as cur:
@@ -68,6 +108,46 @@ def table_for_deals_by_date_modify():
             blank_url TEXT,
             department_id BIGINT
         );
+        COMMENT ON TABLE bitrix.{Config.table_deal_modify}
+        IS 'Таблица с сделками выгрузенные по дате изменения';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.deal_id
+        IS 'ID сделки';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.contact_id
+        IS 'Тип события (ID клиента) ';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.stage_id
+        IS 'ID Стадии на которой находится сделка';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.close_date
+        IS 'Дата закрытия (Системное поле от Битрикса)';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.date_create
+        IS 'Дата создания';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.date_modify
+        IS 'Дата последнего изменения';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.category_id
+        IS 'ID воронки в которой находится сделка';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.source_id
+        IS 'ID источника сделки';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.semantic_id
+        IS 'ID показывающая этап делки. # S=successful,
+                            # P=production, F=fatal';
+    
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.created_by_id
+        IS 'ID сотрудника создавшего сделку';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.blank_url
+        IS 'Бланк покупателя в формате ссылки';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_modify}.department_id
+        IS 'Департамент к которому относится сделка';
+        
         """
 
     with db_client.cursor() as cur:
@@ -91,6 +171,30 @@ def table_for_stage_history_by_deal():
 
             CONSTRAINT uq_deal_stage UNIQUE (deal_id, stage_id)
         );
+        COMMENT ON TABLE bitrix.{Config.table_deal_history}
+        IS 'Таблица с историей передвижения сделки по стадиям';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_history}.id_event
+        IS 'Id события';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_history}.type_id
+        IS 'Тип события (создание элемента, перевод на стадию, 
+        финальная стадия, смена воронки) ';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_history}.deal_id
+        IS 'ID сделки';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_history}.date_modify
+        IS 'Дата изменения';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_history}.date
+        IS 'Дата изменения без UTC';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_history}.category_id
+        IS 'Воронка к которой привязана стадия';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_deal_history}.stage_id
+        IS 'ID стадии из битрикса';
     """
 
     with db_client.cursor() as cur:
@@ -108,8 +212,26 @@ def table_for_department():
     name_dep   TEXT NOT NULL,
     sort       BIGINT,
     parent     BIGINT,
-    uf_head    BIGINT)
+    uf_head    BIGINT);
     
+    COMMENT ON TABLE bitrix.{Config.table_department}
+    IS 'Таблица с департаментами из Битрикса';
+    
+    COMMENT ON COLUMN bitrix.{Config.table_department}.id_dep
+    IS 'Id департамента';
+    
+    COMMENT ON COLUMN bitrix.{Config.table_department}.name_dep
+    IS 'Название департамента';
+    
+    COMMENT ON COLUMN bitrix.{Config.table_department}.sort
+    IS 'Порядок сортировки в Битриксе';
+    
+    COMMENT ON COLUMN bitrix.{Config.table_department}.parent
+    IS 'Родитель департамента';
+    
+    COMMENT ON COLUMN bitrix.{Config.table_department}.uf_head
+    IS 'ID Руководителя департамента';
+
     """
     with db_client.cursor() as cur:
         cur.execute(query)

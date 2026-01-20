@@ -11,5 +11,9 @@ table_deal_modify = 'deals_by_date_modify'
 #
 table_deal_history = 'deal_history_stage'
 
-
+#
 table_department = 'bitrix_department'
+
+#
+table_user = 'bitrix_user'
+
