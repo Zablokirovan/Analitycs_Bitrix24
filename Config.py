@@ -17,3 +17,6 @@ table_department = 'bitrix_department'
 #
 table_user = 'bitrix_user'
 
+
+table_category = 'table_category'
+

@@ -101,8 +101,7 @@ def user_modify(users_list):
             user.get('PERSONAL_MOBILE') or None,
             user.get('PERSONAL_CITY') or None,
             user.get('WORK_PHONE') or None,
-            user.get('UF_PHONE_INNER') or None,
-            datetime.now()
+            user.get('UF_PHONE_INNER') or None
         ))
     return user_m
 

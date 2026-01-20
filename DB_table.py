@@ -237,3 +237,79 @@ def table_for_department():
         cur.execute(query)
 
     db_client.commit()
+
+def table_for_user():
+    query = f"""
+     CREATE SCHEMA IF NOT EXISTS bitrix;
+     
+     CREATE TABLE IF NOT EXISTS bitrix.{Config.table_user}(
+        user_id        BIGINT PRIMARY KEY,
+        xml_id         TEXT,
+        active         Integer,
+        name           TEXT,
+        last_name      TEXT,
+        second_name    TEXT,
+        email          TEXT,
+        last_login     DATE,
+        work_position  TEXT,
+        department     BIGINT,
+        code_1cka      TEXT,
+        per_mobile     TEXT,
+        work_mobile    TEXT,
+        city           TEXT,
+        phone_inner    TEXT);
+        
+        COMMENT ON TABLE bitrix.{Config.table_user}
+        IS 'Таблица c сотрудниками из Битрикса';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.user_id
+        IS 'Id пользователя';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.xml_id
+        IS 'Внутренее ID';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.active
+        IS 'Активный сотрудник или уволен';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.name
+        IS 'Имя сотрудника';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.last_name
+        IS 'Фамилия сотрудника';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.second_name
+        IS 'Отчество сотрудника';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.email
+        IS 'Электронная почта сотрудника';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.last_login
+        IS 'Дата последнего входа';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.work_position
+        IS 'Должность';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.department
+        IS 'ID департамента к которому привязан сотрудник ';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.code_1cka
+        IS 'Код сотрудника в 1СКА (не точные даныне)';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.per_mobile
+        IS 'Персональный номер телефона';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.work_mobile
+        IS 'Рабочий номер телефона';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.city
+        IS 'Город сотрудника';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_user}.phone_inner
+        IS 'Не известные данные';
+    """
+    with db_client.cursor() as cur:
+        cur.execute(query)
+
+    db_client.commit()
+
+

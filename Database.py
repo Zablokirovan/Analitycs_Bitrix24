@@ -179,12 +179,47 @@ def users_upload(users_list):
     :return: None
     """
 
-    table = 'bitrix.users_bitrix'
-    columns = ['user_id', 'xml_id', 'active', 'name', 'last_name',
-               'second_name', 'email', 'last_login', 'work_position',
-               'department', '1cka_code', 'per_mobile', 'city',
-               'work_mobile', 'phone_inner', 'updated_at']
-    client.insert(table=table, column_names=columns, data=users_list)
+    table = Config.table_user
+    DB_table.table_for_user()
+    query = f"""
+        INSERT INTO {os.getenv('DB_SHEMA')}.{table}(
+                user_id,
+                xml_id,
+                active,
+                name,
+                last_name,
+                second_name,
+                email,
+                last_login,
+                work_position,
+                department,
+                code_1cka,
+                per_mobile,
+                work_mobile,
+                city,
+                phone_inner) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT (user_id)
+        DO UPDATE SET
+                xml_id = EXCLUDED.xml_id,
+                active = EXCLUDED.active,
+                name = EXCLUDED.name,
+                last_name = EXCLUDED.last_name,
+                second_name = EXCLUDED.second_name,
+                email = EXCLUDED.email,
+                last_login = EXCLUDED.last_login,
+                work_position = EXCLUDED.work_position,
+                department = EXCLUDED.department,
+                code_1cka = EXCLUDED.code_1cka,
+                per_mobile = EXCLUDED.per_mobile,
+                work_mobile = EXCLUDED.work_mobile,
+                city = EXCLUDED.city,
+                phone_inner = EXCLUDED.phone_inner;
+        """
+    with db_client.cursor() as cur:
+        cur.executemany(query,users_list)
+
+    db_client.commit()
 
 def category_upload(category_list):
     """
@@ -192,6 +227,8 @@ def category_upload(category_list):
     :param category_list:
     :return:
     """
+    table = Config.table_categoryes
+
     table = 'bitrix.category_bitrix'
     columns = ['id', 'name', 'sort', 'entityTypeId', 'isDefault',
                'originId', 'originatorId', 'updated_at']

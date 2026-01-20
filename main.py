@@ -44,4 +44,4 @@ def stage_in_category(category_id):
 
 
 if __name__ == "__main__":
-    departament()
+    user()
