@@ -1,6 +1,7 @@
 """
 The file is needed to change the constant that works during unloading.
 """
+shema = 'bitrix'
 
 # Table name for deals loaded by creation date
 table_deal_create = 'deals_by_date_create'
@@ -20,3 +21,5 @@ table_user = 'bitrix_user'
 
 table_category = 'table_category'
 
+
+table_category_stage = 'bitrix_category_stage'

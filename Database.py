@@ -260,7 +260,31 @@ def category_upload(category_list):
 
 
 def stage_category_upload(stage_list):
-    table = 'bitrix.stage_category'
-    columns = ['id', 'entity_id', 'status_id', 'name', 'name_init',
-               'sort', 'system', 'category_id', 'updated_at']
-    client.insert(table=table, column_names=columns, data=stage_list)
+    table = Config.table_category_stage
+    DB_table.table_for_category_stage()
+
+    query = f"""
+    INSERT INTO {os.getenv('DB_SHEMA')}.{table}(
+        id,
+        entity_id,
+        status_id,
+        name,
+        name_init,
+        sort, 
+        system,
+        category_id)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    ON CONFLICT(id)
+    DO UPDATE SET
+        entity_id = EXCLUDED.entity_id,
+        status_id = EXCLUDED.status_id,
+        name = EXCLUDED.name,
+        name_init = EXCLUDED.name_init,
+        sort = EXCLUDED.sort, 
+        system = EXCLUDED.system,
+        category_id = EXCLUDED.category_id
+    """
+    with db_client.cursor() as cur:
+        cur.executemany(query, stage_list)
+
+    db_client.commit()

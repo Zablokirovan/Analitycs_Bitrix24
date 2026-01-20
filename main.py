@@ -34,7 +34,7 @@ def user():
 
 def category():
     category_list, category_id = Bitrix24.get_category()
-    Database.category_upload(category_list)
+    #Database.category_upload(category_list)
     stage_in_category(category_id)
 
 

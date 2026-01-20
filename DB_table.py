@@ -354,3 +354,45 @@ def table_for_category():
 
     db_client.commit()
 
+def table_for_category_stage():
+    query = f"""
+    CREATE SCHEMA IF NOT EXISTS bitrix;
+     
+     CREATE TABLE IF NOT EXISTS bitrix.{Config.table_category_stage}(
+        id BIGINT PRIMARY KEY,
+        entity_id TEXT,
+        status_id TEXT,
+        name TEXT,
+        name_init TEXT,
+        sort INTEGER, 
+        system TEXT,
+        category_id TEXT DEFAULT 0);
+        
+        COMMENT ON TABLE bitrix.{Config.table_category_stage}
+        IS 'Таблица c стадиями воронок';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category_stage}.entity_id
+        IS 'Id сущности к которой привязана стадия (Воронка со сделками)';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category_stage}.status_id
+        IS 'Id  статуса стадии внутри битрикса';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category_stage}.name
+        IS 'Название стадии';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category_stage}.name_init
+        IS 'Инициализация названия стадии в Битриксе';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category_stage}.sort
+        IS 'ID сортировки в Битриксе';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category_stage}.system
+        IS 'Признак системной стадии';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_category_stage}.category_id
+        IS 'ID воронки к которой привязана стадия';
+    """
+    with db_client.cursor() as cur:
+        cur.execute(query)
+
+    db_client.commit()

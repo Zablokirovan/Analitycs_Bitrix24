@@ -145,8 +145,7 @@ def stage_modify(stage_list):
                     stage.get('NAME_INIT') or None,
                     int(stage['SORT']),
                     stage['SYSTEM'],
-                    int(stage.get('CATEGORY_ID')) if stage.get('CATEGORY_ID') else  0,
-                    datetime.now()
+                    int(stage.get('CATEGORY_ID')) if stage.get('CATEGORY_ID') else  0
                 )
             )
     return stage_m
