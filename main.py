@@ -1,6 +1,38 @@
 import Bitrix24
 import Database
 
+import argparse
+
+
+def main():
+    """
+
+    :return:
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('task', choices=['deals_crt', 'deals_mdf',
+                                         'user', 'category','source',
+                                         'department'])
+
+    args = parser.parse_args()
+
+    if args.task == 'deals_crt':
+        get_and_upload_deals_create()
+
+    elif args.task == 'deals_mdf':
+        get_and_upload_deal_modify()
+
+    elif args.task == 'user':
+        user()
+
+    elif args.task == 'category':
+        category()
+
+    elif args.task == 'source':
+        source()
+
+    elif args.task == 'department':
+        departament()
 
 
 # deal_id_dc is deal_id
@@ -13,8 +45,7 @@ def get_and_upload_deals_create():
 def get_and_upload_deal_modify():
     deal_id_dm, deal_dm_modify_data = Bitrix24.get_deals_date_modify()
     Database.upload_db_deals_modify(deal_dm_modify_data)
-    pass
-    return deal_id_dm
+    return history_get(deal_id_dm)
 
 
 def history_get(deal_id_dm):
@@ -34,7 +65,7 @@ def user():
 
 def category():
     category_list, category_id = Bitrix24.get_category()
-    #Database.category_upload(category_list)
+    Database.category_upload(category_list)
     stage_in_category(category_id)
 
 
@@ -48,4 +79,4 @@ def source():
 
 
 if __name__ == "__main__":
-    source()
+    main()
