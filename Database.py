@@ -39,7 +39,7 @@ def upload_db_deals_create(deal_list):
     with db_client.cursor() as cur:
         cur.executemany(
             f"""
-            INSERT INTO {os.getenv('DB_SHEMA')}.{table} (
+            INSERT INTO {Config.shema}.{table} (
             deal_id,
             contact_id,
             stage_id,
@@ -73,7 +73,7 @@ def upload_db_deals_modify(deal_list):
 
     # Script
     query = f"""
-            INSERT INTO {os.getenv('DB_SHEMA')}.{table} (
+            INSERT INTO {Config.shema}.{table} (
                      deal_id,
                      contact_id,
                      stage_id,
@@ -120,7 +120,7 @@ def upload_db_deals_history(history):
     table = Config.table_deal_history
 
     query = f"""
-       INSERT INTO {os.getenv('DB_SHEMA')}.{table} (
+       INSERT INTO {Config.shema}.{table} (
             id_event,
             type_id,
             deal_id,
@@ -150,7 +150,7 @@ def department_upload(department_list):
     DB_table.table_for_department()
 
     query = f"""
-    INSERT INTO {os.getenv('DB_SHEMA')}.{table}(
+    INSERT INTO {Config.shema}.{table}(
             id_dep,
             name_dep,
             sort,
@@ -182,7 +182,7 @@ def users_upload(users_list):
     table = Config.table_user
     DB_table.table_for_user()
     query = f"""
-        INSERT INTO {os.getenv('DB_SHEMA')}.{table}(
+        INSERT INTO {Config.shema}.{table}(
                 user_id,
                 xml_id,
                 active,
@@ -230,7 +230,7 @@ def category_upload(category_list):
     table = Config.table_category
     DB_table.table_for_category()
     query = f"""
-    INSERT INTO {os.getenv('DB_SHEMA')}.{table}(
+    INSERT INTO {Config.shema}.{table}(
             id,
             name,
             sort,

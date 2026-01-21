@@ -158,31 +158,45 @@ def user_get():
         'user.get', params={'filter': {'Active': True}}))
 
 def get_category():
+    """
+    Downloading category information
+    :return: list(dict[])
+    """
     return ModifyData.category_modify(b_time_delay.get_all(
         'crm.category.list', params={'entityTypeId': 2 }))
 
 
 def get_stage(category_list):
+    """
+    Downloading stage by category information and source
+    :param category_list:
+    :return: stage_list->list()
+            source_list-> list(list(dict[]))
+    """
     stage_list = []
 
     source_list = []
 
     res = b_time_delay.get_all('crm.status.list', params={
-        "filter":{
-        "ENTITY_ID": "SOURCE"
-    }
+        "filter":
+            {"ENTITY_ID": "SOURCE"}
     })
+
     source_list.append(res)
 
     for category in category_list:
+
         if category == 0:
-            stage_list.append((b_time_delay.get_all('crm.status.list', params={
-                'filter': {'ENTITY_ID': "DEAL_STAGE"}
-            })))
+
+            stage_list.append((b_time_delay.get_all(
+                'crm.status.list', params={'filter':
+                                               {'ENTITY_ID': "DEAL_STAGE"}
+                                           })))
         else:
             res = b_time_delay.get_all('crm.status.list', params={
                 'filter': {'ENTITY_ID': f"DEAL_STAGE_{category}"}
             })
             stage_list.append(res)
 
-    return ModifyData.stage_modify(stage_list), ModifyData.source_modify(source_list)
+    return (ModifyData.stage_modify(stage_list),
+            ModifyData.source_modify(source_list))
