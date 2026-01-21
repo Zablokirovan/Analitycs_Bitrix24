@@ -154,16 +154,15 @@ def stage_modify(stage_list):
 def source_modify(source_list):
     source_m = []
 
-    for list_s in source_list:
-        for source in list_s:
+    for source in source_list:
 
-            source_m.append((
-                int(source['ID']),
-                source['ENTITY_ID'],
-                source.get('STATUS_ID') or None,
-                source.get('NAME') or None,
-                source.get('NAME_INIT') or None,
-                int(source.get('SORT')) or None,
-                source['CATEGORY_ID']
-            ))
+        source_m.append((
+            int(source['ID']),
+            source['ENTITY_ID'],
+            source.get('STATUS_ID') or None,
+            source.get('NAME') or None,
+            source.get('NAME_INIT') or None,
+            int(source.get('SORT')) or None,
+            source['CATEGORY_ID']
+        ))
     return source_m

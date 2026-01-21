@@ -157,6 +157,7 @@ def user_get():
     return ModifyData.user_modify(b_time_delay.get_all(
         'user.get', params={'filter': {'Active': True}}))
 
+
 def get_category():
     """
     Downloading category information
@@ -175,15 +176,6 @@ def get_stage(category_list):
     """
     stage_list = []
 
-    source_list = []
-
-    res = b_time_delay.get_all('crm.status.list', params={
-        "filter":
-            {"ENTITY_ID": "SOURCE"}
-    })
-
-    source_list.append(res)
-
     for category in category_list:
 
         if category == 0:
@@ -198,5 +190,18 @@ def get_stage(category_list):
             })
             stage_list.append(res)
 
-    return (ModifyData.stage_modify(stage_list),
-            ModifyData.source_modify(source_list))
+    return ModifyData.stage_modify(stage_list)
+
+
+
+def get_source():
+    """
+       Downloading stage by source information
+       :param :
+       :return: source_list-> list(dict[])
+    """
+
+    return  ModifyData.source_modify(
+        b_time_delay.get_all('crm.status.list',
+                             params={"filter": {"ENTITY_ID": "SOURCE"}
+    }))
