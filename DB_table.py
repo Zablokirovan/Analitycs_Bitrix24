@@ -399,3 +399,46 @@ def table_for_category_stage():
         cur.execute(query)
 
     db_client.commit()
+
+
+def table_for_source():
+    query = f"""
+    CREATE SCHEMA IF NOT EXISTS bitrix;
+     
+     CREATE TABLE IF NOT EXISTS bitrix.{Config.table_source}(
+        id BIGINT PRIMARY KEY,
+        entity_id TEXT,
+        status_id TEXT,
+        name TEXT,
+        name_init TEXT,
+        sort INTEGER, 
+        category_id TEXT DEFAULT 0);
+        
+        COMMENT ON TABLE bitrix.{Config.table_source}
+        IS 'Таблица c источниками из Битрикса';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_source}.id
+        IS 'Id источника';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_source}.entity_id
+        IS 'Id тип сущности)';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_source}.status_id
+        IS 'Id  статус сущности';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_source}.name
+        IS 'Название источника';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_source}.name_init
+        IS 'Инициализация названия источника  в Битриксе';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_source}.sort
+        IS 'ID сортировки в Битриксе';
+        
+        COMMENT ON COLUMN bitrix.{Config.table_source}.category_id
+        IS 'ID воронки к которой привязан источник';
+    """
+    with db_client.cursor() as cur:
+        cur.execute(query)
+
+    db_client.commit()

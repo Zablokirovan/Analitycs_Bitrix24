@@ -264,7 +264,7 @@ def stage_category_upload(stage_list):
     DB_table.table_for_category_stage()
 
     query = f"""
-    INSERT INTO {os.getenv('DB_SHEMA')}.{table}(
+    INSERT INTO {Config.shema}.{table}(
         id,
         entity_id,
         status_id,
@@ -286,5 +286,34 @@ def stage_category_upload(stage_list):
     """
     with db_client.cursor() as cur:
         cur.executemany(query, stage_list)
+
+    db_client.commit()
+
+
+def source_upload(source):
+    table = Config.table_source
+
+    DB_table.table_for_source()
+    query = f"""
+    INSERT INTO {Config.shema}.{table}(
+            id ,
+            entity_id ,
+            status_id ,
+            name ,
+            name_init ,
+            sort , 
+            category_id)
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    ON CONFLICT(id)
+    DO UPDATE SET
+        entity_id = EXCLUDED.entity_id,
+        status_id = EXCLUDED.status_id,
+        name = EXCLUDED.name,
+        name_init = EXCLUDED.name_init,
+        sort = EXCLUDED.sort,
+        category_id = EXCLUDED.category_id
+    """
+    with db_client.cursor() as cur:
+        cur.executemany(query, source)
 
     db_client.commit()

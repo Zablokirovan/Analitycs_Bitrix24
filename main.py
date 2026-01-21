@@ -39,8 +39,9 @@ def category():
 
 
 def stage_in_category(category_id):
-    stage = Bitrix24.get_stage(category_id)
+    stage, source = Bitrix24.get_stage(category_id)
     Database.stage_category_upload(stage)
+    Database.source_upload(source)
 
 
 if __name__ == "__main__":

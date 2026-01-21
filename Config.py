@@ -21,7 +21,10 @@ table_department = 'bitrix_department'
 table_user = 'bitrix_user'
 
 # Table name for all category in Bitrix24
-table_category = 'table_category'
+table_category = 'bitrix_category'
 
 # Table name for name stage in category
 table_category_stage = 'bitrix_category_stage'
+
+#
+table_source = 'bitrix_source'
