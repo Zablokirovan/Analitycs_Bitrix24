@@ -1,10 +1,12 @@
 import os
+import ModifyData
+import tg_bot
+
 from fast_bitrix24 import Bitrix
 
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 
-import ModifyData
 
 load_dotenv()
 
@@ -58,7 +60,8 @@ def get_deals_date_create():
                             'CREATED_BY_ID']  # employe created deals
                     }))
     except Exception as e:
-        print(e)
+        tg_bot.telegram_send_messages(f"Error:get_deals_date_create {e}")
+
 
 
 def get_deals_date_modify():
@@ -97,7 +100,7 @@ def get_deals_date_modify():
                     }))
 
     except Exception as e:
-        print(e)
+        tg_bot.telegram_send_messages(f"Error:get_deals_date_modify {e}")
 
 
 def chunks(lst, size):
@@ -124,22 +127,25 @@ def get_deal_history_stage(deal_id, batch_size=50):
     """
     result = []
 
-    for batch in chunks(deal_id, batch_size):
+    try:
+        for batch in chunks(deal_id, batch_size):
 
-        with b_time_delay.slow(max_concurrent_requests=5):
+            with b_time_delay.slow(max_concurrent_requests=5):
 
-            res = b_time_delay.get_all(
-                'crm.stagehistory.list',
-                params={
-                    "entityTypeId": 2,
-                    'filter': {
-                        'OWNER_ID': batch
-                    }
-                })
-            result.extend(res)
+                res = b_time_delay.get_all(
+                    'crm.stagehistory.list',
+                    params={
+                        "entityTypeId": 2,
+                        'filter': {
+                            'OWNER_ID': batch
+                        }
+                    })
+                result.extend(res)
 
-    return ModifyData.modify_history_data(result)
+        return ModifyData.modify_history_data(result)
 
+    except Exception as e:
+        tg_bot.telegram_send_messages(f"Error:get_deal_history_stage {e}")
 
 def get_department():
     """
