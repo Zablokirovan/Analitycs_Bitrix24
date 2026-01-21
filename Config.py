@@ -26,5 +26,5 @@ table_category = 'bitrix_category'
 # Table name for name stage in category
 table_category_stage = 'bitrix_category_stage'
 
-#
+#Table name for data by source
 table_source = 'bitrix_source'

@@ -2,7 +2,6 @@
 This file need for upload data in database Postgres
 """
 import os
-from idlelib.query import Query
 
 import psycopg2
 
@@ -114,10 +113,11 @@ def upload_db_deals_history(history):
     :param history: list histories
     :return:None
     """
-
-    DB_table.table_for_stage_history_by_deal()
-
+    # Table for history stage by deal
     table = Config.table_deal_history
+
+    # Check exist table
+    DB_table.table_for_stage_history_by_deal()
 
     query = f"""
        INSERT INTO {Config.shema}.{table} (
@@ -146,7 +146,9 @@ def department_upload(department_list):
     :param department_list:
     :return:None
     """
+    # Table for department
     table = Config.table_department
+    # Check exist table
     DB_table.table_for_department()
 
     query = f"""
@@ -178,9 +180,11 @@ def users_upload(users_list):
     :param users_list:
     :return: None
     """
-
+    # Table for data by user
     table = Config.table_user
+    # Check exist table
     DB_table.table_for_user()
+
     query = f"""
         INSERT INTO {Config.shema}.{table}(
                 user_id,
@@ -227,8 +231,11 @@ def category_upload(category_list):
     :param category_list:
     :return:
     """
+    # Table for fuel information
     table = Config.table_category
+    # Chek exist table
     DB_table.table_for_category()
+
     query = f"""
     INSERT INTO {Config.shema}.{table}(
             id,
@@ -260,7 +267,14 @@ def category_upload(category_list):
 
 
 def stage_category_upload(stage_list):
+    """
+
+    :param stage_list:
+    :return:
+    """
+    # Table for stage_history by deal
     table = Config.table_category_stage
+    # Chek exist table
     DB_table.table_for_category_stage()
 
     query = f"""
@@ -291,9 +305,16 @@ def stage_category_upload(stage_list):
 
 
 def source_upload(source):
-    table = Config.table_source
+    """
 
+    :param source:
+    :return:
+    """
+    # Table for source data
+    table = Config.table_source
+    # Check exist table
     DB_table.table_for_source()
+
     query = f"""
     INSERT INTO {Config.shema}.{table}(
             id ,

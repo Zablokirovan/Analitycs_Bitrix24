@@ -68,7 +68,9 @@ def modify_history_data(history):
 
 def department(department_list):
     dep_m = []
+
     for i in department_list:
+
         dep_m.append((
             int(i['ID']),
             i["NAME"],
@@ -76,6 +78,7 @@ def department(department_list):
             int(i['CREATED_BY_ID']) if i.get("CREATED_BY_ID") else None,
             int(i['UF_HEAD']) if i.get("UF_HEAD") else None
         ))
+
     return dep_m
 
 
@@ -103,19 +106,27 @@ def user_modify(users_list):
             user.get('WORK_PHONE') or None,
             user.get('UF_PHONE_INNER') or None
         ))
+
     return user_m
 
 
 def category_modify(category_list):
     """
+    Normalizing Funnel Data
 
     :param category_list:
     :return:
+    category_m = Normalizing data
+    category_id = id fuel, to obtain stages
     """
+
     category_m = []
     category_id = []
+
     for i in category_list:
+
         category_id.append(i['id'])
+
         category_m.append((
             i['id'],
             i['name'],
@@ -130,6 +141,12 @@ def category_modify(category_list):
 
 
 def stage_modify(stage_list):
+    """
+    Normalization of stage data
+
+    :param stage_list:
+    :return:
+    """
     stage_m = []
 
     for stage_category in stage_list:
@@ -148,10 +165,18 @@ def stage_modify(stage_list):
                     int(stage.get('CATEGORY_ID')) if stage.get('CATEGORY_ID') else  0
                 )
             )
+
     return stage_m
 
 
 def source_modify(source_list):
+    """
+    Normalization of source data
+
+    :param source_list:
+
+    :return:
+    """
     source_m = []
 
     for source in source_list:
@@ -165,4 +190,5 @@ def source_modify(source_list):
             int(source.get('SORT')) or None,
             source['CATEGORY_ID']
         ))
+
     return source_m

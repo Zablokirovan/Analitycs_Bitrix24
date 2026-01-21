@@ -193,7 +193,6 @@ def get_stage(category_list):
     return ModifyData.stage_modify(stage_list)
 
 
-
 def get_source():
     """
        Downloading stage by source information
