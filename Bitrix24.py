@@ -26,6 +26,7 @@ end_date = (date_now - timedelta(days=1)).strftime('%Y-%m-%dT23:59:59+05:00')
 
 start_date_m = date_now.strftime('%Y-%m-%dT00:00:00+05:00')
 end_date_m = date_now.strftime('%Y-%m-%dT23:59:59+05:00')
+
 def get_deals_date_create():
     """
     A function for conducting deals from Bitrix24 by creation
@@ -40,8 +41,8 @@ def get_deals_date_create():
                     params={
                         # DATE_CREATE to get created trades on this day
                         'filter': {
-                            '>=DATE_CREATE': start_date,
-                            '<=DATE_CREATE': end_date,
+                            '>=DATE_CREATE': start_date_m,
+                            '<=DATE_CREATE': end_date_m,
                         },
                         'select': [
                             'ID',  # Deal_id
@@ -79,8 +80,8 @@ def get_deals_date_modify():
                     params={
                         'filter': {
                             # DATE_MODIFY to get the relevance of transactions.
-                            '>=DATE_MODIFY': start_date_m,
-                            '<=DATE_MODIFY': end_date_m
+                            '>=DATE_MODIFY': start_date_t,
+                            '<=DATE_MODIFY': end_date_t
                         },
                         'select': [
                             'ID',  # Deal_id
