@@ -80,8 +80,8 @@ def get_deals_date_modify():
                     params={
                         'filter': {
                             # DATE_MODIFY to get the relevance of transactions.
-                            '>=DATE_MODIFY': start_date,
-                            '<=DATE_MODIFY': end_date
+                            '>=DATE_MODIFY': start_date_m,
+                            '<=DATE_MODIFY': end_date_m
                         },
                         'select': [
                             'ID',  # Deal_id
