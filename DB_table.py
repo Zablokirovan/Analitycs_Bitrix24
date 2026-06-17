@@ -30,17 +30,19 @@ def table_for_deals_by_date_created():
 
     CREATE TABLE IF NOT EXISTS {Config.shema}.{Config.table_deal_create} (
         deal_id BIGINT PRIMARY KEY,
-        contact_id BIGINT,
-        stage_id TEXT,
-        close_date DATE,
-        date_create DATE,
-        date_modify DATE,
-        category_id INTEGER,
-        source_id TEXT,
-        semantic_id TEXT,
-        created_by_id BIGINT,
-        blank_url TEXT,
-        department_id BIGINT
+            contact_id BIGINT,
+            stage_id TEXT,
+            close_date DATE,
+            date_create DATE,
+            date_modify DATE,
+            category_id INTEGER,
+            source_id TEXT,
+            semantic_id TEXT,
+            created_by_id BIGINT,
+            blank_url TEXT,
+            department_id BIGINT,
+            assigned_by_id BIGINT,
+            ai_sulu TEXT
     );
     COMMENT ON TABLE {Config.shema}.{Config.table_deal_create}
         IS 'Таблица с сделками выгрузенные по дате создания';
@@ -91,6 +93,7 @@ def table_for_deals_by_date_created():
 
 
 def table_for_deals_by_date_modify():
+
     sql_script = f"""
         CREATE SCHEMA IF NOT EXISTS {Config.shema};
 
@@ -106,13 +109,21 @@ def table_for_deals_by_date_modify():
             semantic_id TEXT,
             created_by_id BIGINT,
             blank_url TEXT,
-            department_id BIGINT
+            department_id BIGINT,
+            assigned_by_id BIGINT,
+            ai_sulu TEXT
         );
         COMMENT ON TABLE {Config.shema}.{Config.table_deal_modify}
         IS 'Таблица с сделками выгрузенные по дате изменения';
         
         COMMENT ON COLUMN {Config.shema}.{Config.table_deal_modify}.deal_id
         IS 'ID сделки';
+        
+        COMMENT ON COLUMN {Config.shema}.{Config.table_deal_modify}.assigned_by_id
+        IS 'Ответственный за сделку';
+        
+        COMMENT ON COLUMN {Config.shema}.{Config.table_deal_modify}.ai_sulu
+        IS 'сделка создана при помощи AiSulu';
         
         COMMENT ON COLUMN {Config.shema}.{Config.table_deal_modify}.contact_id
         IS 'Тип события (ID клиента) ';
@@ -149,7 +160,6 @@ def table_for_deals_by_date_modify():
         IS 'Департамент к которому относится сделка';
         
         """
-
     with db_client.cursor() as cur:
         cur.execute(sql_script)
 

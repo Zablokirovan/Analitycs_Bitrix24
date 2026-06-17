@@ -41,8 +41,10 @@ def get_deals_date_create():
                     params={
                         # DATE_CREATE to get created trades on this day
                         'filter': {
-                            '>=DATE_CREATE': start_date_m,
-                            '<=DATE_CREATE': end_date_m,
+                            '>=DATE_CREATE': '2026-05-31',#start_date_m
+                            '<=DATE_CREATE': '2026-06-01',
+                            "CATEGORY_ID": "0"
+                            #end_date_m,
                         },
                         'select': [
                             'ID',  # Deal_id
@@ -59,10 +61,13 @@ def get_deals_date_create():
                             'UF_CRM_5F3F5BECDFC07',  # DEPARTMENT
                             'STAGE_SEMANTIC_ID',  # S=successful,
                             # P=production, F=fatal
-                            'CREATED_BY_ID']  # employe created deals
+                            'CREATED_BY_ID',# Employe created deals
+                            'ASSIGNED_BY_ID',# ответственный по сделке
+                            'UF_CRM_1779339829'] # создана через айсулу]  # employe created deals
                     }))
     except Exception as e:
         tg_bot.telegram_send_messages(f"Error:get_deals_date_create {e}")
+        raise
 
 
 
@@ -80,8 +85,10 @@ def get_deals_date_modify():
                     params={
                         'filter': {
                             # DATE_MODIFY to get the relevance of transactions.
-                            '>=DATE_MODIFY': start_date_m,
-                            '<=DATE_MODIFY': end_date_m
+                            '>=DATE_MODIFY': '2026-06-05',#start_date_m
+                            '<=DATE_MODIFY': '2026-06-10',
+                            "CATEGORY_ID": "0",
+                            "UF_CRM_1779339829": "1",#end_date_m
                         },
                         'select': [
                             'ID',  # Deal_id
@@ -98,11 +105,15 @@ def get_deals_date_modify():
                             'UF_CRM_5F3F5BECDFC07',  # DEPARTMENT
                             'STAGE_SEMANTIC_ID',  # S=successful,
                             # P=production, F=fatal
-                            'CREATED_BY_ID']  # Employe created deals
+                            'CREATED_BY_ID',# Employe created deals
+                            'ASSIGNED_BY_ID',# ответственный по сделке
+                            'UF_CRM_1779339829'] # создана через айсулу
                     }))
 
     except Exception as e:
-        tg_bot.telegram_send_messages(f"Error:get_deals_date_modify {e}")
+        #tg_bot.telegram_send_messages(f"Error:get_deals_date_modify {e}")
+        print(e)
+        raise
 
 
 def chunks(lst, size):

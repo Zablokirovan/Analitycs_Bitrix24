@@ -31,7 +31,9 @@ def data_modify_for_deals(deal_list):
                deal['UF_CRM_1569388305']['downloadUrl'],
                int(deal['UF_CRM_5F3F5BECDFC07']) if deal.get(
                    'UF_CRM_5F3F5BECDFC07'
-               ) else None]
+               ) else None,
+               int(deal.get('ASSIGNED_BY_ID')),
+               deal.get('UF_CRM_1779339829') if deal.get('UF_CRM_1779339829') else None]
         # Since the same error handling logic is used for deals loaded by
         # creation date and date modified, for deals loaded by creation date,
         # the with_version flag will be set to true, and a version record will

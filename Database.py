@@ -38,32 +38,36 @@ def upload_db_deals_create(deal_list):
         query = f"""
             INSERT INTO {Config.shema}.{table} (
                      deal_id,
-                     contact_id,
-                     stage_id,
-                     close_date,
-                     date_create, 
-                     date_modify,
-                     category_id,
-                     source_id,
-                     semantic_id,
-                     created_by_id,
-                     blank_url,
-                     department_id
-                     )
-                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                 ON CONFLICT (deal_id)
-                 DO UPDATE SET
-                    contact_id = EXCLUDED.contact_id,
-                    stage_id = EXCLUDED.stage_id,
-                    close_date = EXCLUDED.close_date,
-                    date_create = EXCLUDED.date_create, 
-                    date_modify = EXCLUDED.date_modify,
-                    category_id = EXCLUDED.category_id,
-                    source_id = EXCLUDED.source_id,
-                    semantic_id = EXCLUDED.semantic_id,
-                    created_by_id = EXCLUDED.created_by_id,
-                    blank_url = EXCLUDED.blank_url,
-                    department_id = EXCLUDED.department_id;
+                         contact_id,
+                         stage_id,
+                         close_date,
+                         date_create, 
+                         date_modify,
+                         category_id,
+                         source_id,
+                         semantic_id,
+                         created_by_id,
+                         blank_url,
+                         department_id,
+                         assigned_by_id,
+                         ai_sulu 
+                         )
+                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
+                     ON CONFLICT (deal_id)
+                     DO UPDATE SET
+                        contact_id = EXCLUDED.contact_id,
+                        stage_id = EXCLUDED.stage_id,
+                        close_date = EXCLUDED.close_date,
+                        date_create = EXCLUDED.date_create, 
+                        date_modify = EXCLUDED.date_modify,
+                        category_id = EXCLUDED.category_id,
+                        source_id = EXCLUDED.source_id,
+                        semantic_id = EXCLUDED.semantic_id,
+                        created_by_id = EXCLUDED.created_by_id,
+                        blank_url = EXCLUDED.blank_url,
+                        department_id = EXCLUDED.department_id,
+                        assigned_by_id = EXCLUDED.assigned_by_id,
+                        ai_sulu = EXCLUDED.ai_sulu ;
                              """
 
         with db_client.cursor() as cur:
@@ -99,9 +103,11 @@ def upload_db_deals_modify(deal_list):
                          semantic_id,
                          created_by_id,
                          blank_url,
-                         department_id
+                         department_id,
+                         assigned_by_id,
+                         ai_sulu 
                          )
-                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
                      ON CONFLICT (deal_id)
                      DO UPDATE SET
                         contact_id = EXCLUDED.contact_id,
@@ -114,7 +120,9 @@ def upload_db_deals_modify(deal_list):
                         semantic_id = EXCLUDED.semantic_id,
                         created_by_id = EXCLUDED.created_by_id,
                         blank_url = EXCLUDED.blank_url,
-                        department_id = EXCLUDED.department_id;
+                        department_id = EXCLUDED.department_id,
+                        assigned_by_id = EXCLUDED.assigned_by_id,
+                        ai_sulu = EXCLUDED.ai_sulu ;
                      """
         with db_client.cursor() as cur:
             cur.executemany(query, deal_list)

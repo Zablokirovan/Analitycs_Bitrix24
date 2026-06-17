@@ -75,7 +75,7 @@ def stage_in_category(category_id):
 
 def source():
     source_list = Bitrix24.get_source()
-    Database.source_upload(source_list)
+    Database.source_upload(source_list) 
 
 
 if __name__ == "__main__":
