@@ -44,8 +44,8 @@ def get_and_upload_deals_create():
 
 
 def get_and_upload_deal_modify():
-    # 1. История стадий за сегодня → уникальные ID сделок
-    history, deal_ids = Bitrix24.get_history_by_date(
+    # 1. stagehistory как фильтр — получаем только уникальные deal_ids
+    _, deal_ids = Bitrix24.get_history_by_date(
         Bitrix24.start_date_m, Bitrix24.end_date_m
     )
     if not deal_ids:
@@ -55,9 +55,8 @@ def get_and_upload_deal_modify():
     # 2. Полные данные по этим сделкам
     _, deals = Bitrix24.get_deals_by_ids(deal_ids)
 
-    # 3. Загрузка в БД
+    # 3. Загрузка сделок в БД
     Database.upload_db_deals_modify(deals)
-    Database.upload_db_deals_history(history)
 
 
 def department():

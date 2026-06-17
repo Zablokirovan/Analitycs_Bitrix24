@@ -167,6 +167,7 @@ def get_history_by_date(start: str, end: str):
                     'filter': {
                         '>=CREATED_TIME': start,
                         '<=CREATED_TIME': end,
+                        'CATEGORY_ID': 0,
                     },
                 })
 
