@@ -32,7 +32,7 @@ def data_modify_for_deals(deal_list):
                int(deal['UF_CRM_5F3F5BECDFC07']) if deal.get(
                    'UF_CRM_5F3F5BECDFC07'
                ) else None,
-               int(deal.get('ASSIGNED_BY_ID')),
+               int(deal['ASSIGNED_BY_ID']) if deal.get('ASSIGNED_BY_ID') else None,
                deal.get('UF_CRM_1779339829') if deal.get('UF_CRM_1779339829') else None]
         # Since the same error handling logic is used for deals loaded by
         # creation date and date modified, for deals loaded by creation date,
@@ -189,7 +189,7 @@ def source_modify(source_list):
             source.get('STATUS_ID') or None,
             source.get('NAME') or None,
             source.get('NAME_INIT') or None,
-            int(source.get('SORT')) or None,
+            int(source['SORT']) if source.get('SORT') is not None else None,
             source['CATEGORY_ID']
         ))
 
