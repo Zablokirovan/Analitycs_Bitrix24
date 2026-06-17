@@ -1,2 +1,27 @@
-.venv
+# Виртуальное окружение
+.venv/
+venv/
+env/
+
+# Переменные окружения
 .env
+
+# Python кэш
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Временные файлы редакторов
+Untitled
+*.swp
+*.swo
+.DS_Store
+
+# PyCharm / IntelliJ
+.idea/
+
+# Логи
+*.log
+
+# Docker
+*.env.local
